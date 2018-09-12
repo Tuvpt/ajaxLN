@@ -1,0 +1,47 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_Ajax
+ * @copyright   Copyright (c) Mageplaza (http://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+?>
+<?php
+/** @type \Mageplaza\LayeredNavigation\Model\Layer\Filter\Attribute $filter */
+$filter = $this->getFilter();
+$attributeCode = $filter->getRequestVar();
+
+/** @type \Mageplaza\Layerednavigation\Model\Layer\Filter $filterModel */
+$filterModel = $this->helper('\Mageplaza\AjaxLayeredNavigation\Helper\Data')->getFilterModel();
+?>
+<ol class="items">
+    <?php /** @type  $filterItem */ foreach ($filterItems as $filterItem): ?>
+        <li class="item">
+                <a href="<?php echo $block->escapeUrl($filterModel->getItemUrl($filterItem)) ?>">
+                    <?php if ($filterItem->getCount() > 0): ?>
+                        <input type="<?php echo 'radio' ?>" <?php echo $filterModel->isSelected($filterItem) ? 'checked="checked"' : ''  ?> />
+                    <?php else: ?>
+                        <input type="<?php echo 'radio' ?>" disabled="disabled" />
+                    <?php endif; ?>
+
+                    <?php echo $filterItem->getLabel() ?>
+                    <?php if ($filterModel->isShowCounter($filter)): ?>
+                        <span class="count"><?php echo $filterItem->getCount()?><span class="filter-count-label"><?php echo ($filterItem->getCount() == 1) ? 'item' : 'items'; ?></span></span>
+                    <?php endif; ?>
+                </a>
+        </li>
+	<?php endforeach ?>
+</ol>
